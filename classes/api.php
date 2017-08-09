@@ -17,13 +17,21 @@
 namespace tool_questiongenerator;
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Class api
+ * @package tool_questiongenerator
+ */
 class api {
     const PATH = "/home/ankit/re/ques/aqg/app.py"; // TODO
 
-    public static function generate_questions($formdata) {
+    /**
+     * Generate questions by calling python module.
+     *
+     * @param $text
+     * @return array
+     */
+    protected static function generate_questions($text) {
         global $CFG;
-        list($text, $debug) = self::clean_form_data($formdata);
-
         $txtpath = $CFG->tempdir . "questiongenerator" . sha1($text) . ".txt"; // TODO
         file_put_contents($txtpath, $text);
 
@@ -39,9 +47,43 @@ class api {
 
     }
 
+    /**
+     * Clean form data.
+     *
+     * @param $formdata
+     * @return array
+     */
     protected static function clean_form_data($formdata) {
         $text = $formdata->originaltext;
         $debug = empty($formdata->debug) ? false : true;
         return [$text, $debug];
+    }
+
+    /**
+     * For a given text and summary bold the sentences in text that are also present in summary.
+     *
+     * @param $text
+     * @param $summary
+     * @return mixed
+     */
+    protected static function get_bold_text($text, $summary) {
+        $replace = [];
+        $finalsummary = [];
+        foreach ($summary as $sent) {
+            $finalsummary[] = trim($sent);
+            $replace[] = "<b>" . $sent . "</b>";
+        }
+        return str_replace($finalsummary, $replace, $text);
+    }
+
+    public static function get_renderable($formdata) {
+        list($text, $debug) = self::clean_form_data($formdata);
+        list($input, $output, $errors) = self::generate_questions($text);
+
+        $data = json_decode($output, true);
+        $summary = $data['summary'];
+        $boldtext = self::get_bold_text($text, $summary);
+        $renderable = new namespace\renderable($input, $output, $errors, $data, $boldtext, $summary);
+        return $renderable;
     }
 }

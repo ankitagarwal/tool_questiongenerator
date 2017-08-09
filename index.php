@@ -33,18 +33,11 @@ $mform = new tool_questiongenerator\generator_form();
 
 if ($formdata = $mform->get_data()) {
     $mform->display();
-    list($input, $output, $errors) = \tool_questiongenerator\api::generate_questions($formdata);
+    $renderable = \tool_questiongenerator\api::get_renderable($formdata);
+    $renderer = $PAGE->get_renderer('tool_questiongeneratior');
+    $renderer->render($renderable);
 
-//    if ($debug) {
-//        echo "<br /><b>Arguments</b><pre>";
-//        print $input;
-//        echo "</pre><b>Output</b><pre>";
-//        print $output;
-//        echo "</pre><b>Errors</b><pre>";
-//        print $errors;
-//        echo "</pre>";
-//        print_object($data);
-//    }
+
 
     $data = json_decode($output, true);
     $summary = $data['summary'];
@@ -55,7 +48,7 @@ if ($formdata = $mform->get_data()) {
         $finalsummary[] = trim($sent);
         $replace[] = "<b>" . $sent . "</b>";
     }
-    $boldtext = str_replace($finalsummary, $replace, $text);
+    $boldtext = str_replace($finalsummary, $replace, $formdata['originaltext']);
     echo "<b>Original text with important sentences bold</b><br /><br /><p>";
     echo $boldtext;
     echo "</p>";
