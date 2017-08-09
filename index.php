@@ -22,7 +22,7 @@ require_login();
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/admin/tool/questiongenerator/index.php'));
 $PAGE->set_title(get_string('questiongenerator', 'tool_questiongenerator'));
-$PAGE->
+$PAGE->set_pagelayout('report');
 
 echo $OUTPUT->header();
 
@@ -33,34 +33,20 @@ $mform = new tool_questiongenerator\generator_form();
 
 if ($formdata = $mform->get_data()) {
     $mform->display();
-    $text = $formdata->originaltext;
-    $debug = empty($formdata->debug) ? false : true ;
-    $path = "/home/ankit/re/ques/aqg/app.py";
-    $txtpath = $CFG->tempdir . "questiongenerator" . sha1($text) . ".txt"; // TODO
-    file_put_contents($txtpath, $text);
+    list($input, $output, $errors) = \tool_questiongenerator\api::generate_questions($formdata);
 
-    $cmd = "/usr/bin/python $path -f $txtpath";
-    $command = escapeshellcmd($cmd);
-    $proc = proc_open($command,
-        array(
-            array("pipe","r"),
-            array("pipe","w"),
-            array("pipe","w")
-        ),
-        $pipes);
-    $data = stream_get_contents($pipes[1]);
-    if ($debug) {
-        echo "<br /><b>Arguments</b><pre>";
-        print stream_get_contents($pipes[0]);
-        echo "</pre><b>Output</b><pre>";
-        print $data;
-        echo "</pre><b>Errors</b><pre>";
-        print stream_get_contents($pipes[2]);
-        echo "</pre>";
-        print_object($data);
-    }
+//    if ($debug) {
+//        echo "<br /><b>Arguments</b><pre>";
+//        print $input;
+//        echo "</pre><b>Output</b><pre>";
+//        print $output;
+//        echo "</pre><b>Errors</b><pre>";
+//        print $errors;
+//        echo "</pre>";
+//        print_object($data);
+//    }
 
-    $data = json_decode($data, true);
+    $data = json_decode($output, true);
     $summary = $data['summary'];
 
     $replace = [];
