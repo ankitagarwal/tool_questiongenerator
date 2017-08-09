@@ -1,17 +1,18 @@
 <?php
-// This file is part of Advanced Spam Cleaner tool for Moodle
+// This file is part of Moodle plugin question generator.
 //
-// Question generator is free software: you can redistribute it and/or modify
+// Moodle plugin question generator is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// Question generator is distributed in the hope that it will be useful,
+// Moodle plugin question generator is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// For a copy of the GNU General Public License, see <http://www.gnu.org/licenses/>.
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace tool_questiongenerator;
 defined('MOODLE_INTERNAL') || die();
@@ -19,7 +20,8 @@ defined('MOODLE_INTERNAL') || die();
 require_once("$CFG->libdir/formslib.php");
 
 /**
- * Class tool_advanced_spam_cleaner
+ * Class generator_form
+ * @package tool_questiongenerator
  */
 class generator_form extends \moodleform {
     // Define the form.
@@ -28,11 +30,15 @@ class generator_form extends \moodleform {
         // TODO add path to python code.
         $mfrom = $this->_form;
 
+        // Options.
         $mfrom->addElement('header', 'options', get_string('options'));
+
+        // Summary ratio. (Not used at the moment).
         $mfrom->addElement('text', 'summaryratio', get_string('summaryratio', 'tool_questiongenerator'));
         $mfrom->setType('summaryratio', PARAM_FLOAT);
         $mfrom->setDefault('summaryratio', 0.10);
 
+        // Original text field.
         $mfrom->addElement('header', 'text', get_string('text', 'tool_questiongenerator'));
         $mfrom->addElement('textarea', 'originaltext', get_string('originaltext', 'tool_questiongenerator'), ['rows' => 30, 'cols' => 100]);
         $mfrom->setType('originaltext', PARAM_NOTAGS);
