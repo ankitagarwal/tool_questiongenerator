@@ -27,15 +27,26 @@ class renderable implements \renderable {
     protected $input;
     protected $output;
     protected $errors;
+    protected $debug;
     protected $data;
     protected $boldtext;
     protected $summary;
 
-
-    public function __construct($input, $output, $errors, $data, $boldtext, $summary) {
+    /**
+     * renderable constructor.
+     * @param $input
+     * @param $output
+     * @param $errors
+     * @param $debug
+     * @param $data
+     * @param $boldtext
+     * @param $summary
+     */
+    public function __construct($input, $output, $errors, $debug, $data, $boldtext, $summary) {
         $this->input = $input;
-        $this->output = $ouput;
+        $this->output = $output;
         $this->errors = $errors;
+        $this->debug = $debug;
         $this->data = $data;
         $this->boldtext = $boldtext;
         $this->summary = $summary;

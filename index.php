@@ -34,10 +34,10 @@ $mform = new tool_questiongenerator\generator_form();
 if ($formdata = $mform->get_data()) {
     $mform->display();
     $renderable = \tool_questiongenerator\api::get_renderable($formdata);
-    $renderer = $PAGE->get_renderer('tool_questiongeneratior');
+    $renderer = $PAGE->get_renderer('tool_questiongenerator');
     $renderer->render($renderable);
     $table = new \tool_questiongenerator\questions_table("tool_quesntiongenerator_qna");
-    $table->format_and_add_array_of_rows($renderer->data['qna']);
+    $table->format_and_add_array_of_rows($renderable->data['qna']);
 } else {
     $mform->display();
 }

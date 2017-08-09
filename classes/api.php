@@ -83,7 +83,7 @@ class api {
         $data = json_decode($output, true);
         $summary = $data['summary'];
         list($boldtext, $summary) = self::get_bold_text($text, $summary);
-        $renderable = new output\renderable($input, $output, $errors, $data, $boldtext, $summary);
+        $renderable = new output\renderable($input, $output, $errors, $debug, $data, $boldtext, $summary);
         return $renderable;
     }
 }

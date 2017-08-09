@@ -24,6 +24,11 @@ defined('MOODLE_INTERNAL') || die();
  * @package tool_questiongenerator
  */
 class renderer extends \plugin_renderer_base {
+    /**
+     * Main render method.
+     *
+     * @param renderable $renderable
+     */
     public function render_renderable(renderable $renderable) {
         if ($renderable->debug) {
             // If debug is requested, print everything we have got.
@@ -32,6 +37,11 @@ class renderer extends \plugin_renderer_base {
         $this->display_summary($renderable);
     }
 
+    /**
+     * Display debug data if needed.
+     *
+     * @param renderable $renderable
+     */
     protected function display_debug_data(renderable $renderable) {
         echo "<br /><b>Arguments</b><pre>";
         print $renderable->input;
@@ -42,6 +52,11 @@ class renderer extends \plugin_renderer_base {
         echo "</pre>";
     }
 
+    /**
+     * Display both original text and generated summary.
+     *
+     * @param renderable $renderable
+     */
     protected function display_summary(renderable $renderable) {
         echo "<b>Original text with important sentences bold</b><br /><br /><p>";
         echo $renderable->boldtext;
