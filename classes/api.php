@@ -37,12 +37,12 @@ class api {
 
         $cmd = "/usr/bin/python " . self::PATH . " -f $txtpath";
         $command = escapeshellcmd($cmd);
-        $proc = proc_open($command, [
+        proc_open($command, [
                 ["pipe", "r"],
                 ["pipe", "w"],
                 ["pipe", "w"]
             ],
-            $pipes);
+        $pipes);
         return[stream_get_contents($pipes[0]), stream_get_contents($pipes[1]), stream_get_contents($pipes[2])];
 
     }

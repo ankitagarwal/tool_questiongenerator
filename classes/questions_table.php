@@ -73,14 +73,6 @@ class questions_table extends \flexible_table {
     }
 
     /**
-     * @param $array
-     * @return array
-     */
-    protected static function transpose($array) {
-        return array_map(null, ...$array);
-    }
-
-    /**
      * @param $data
      * @return array
      * @throws \coding_exception
