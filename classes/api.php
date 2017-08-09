@@ -73,7 +73,7 @@ class api {
             $finalsummary[] = trim($sent);
             $replace[] = "<b>" . $sent . "</b>";
         }
-        return str_replace($finalsummary, $replace, $text);
+        return [str_replace($finalsummary, $replace, $text), $finalsummary];
     }
 
     public static function get_renderable($formdata) {
@@ -82,8 +82,8 @@ class api {
 
         $data = json_decode($output, true);
         $summary = $data['summary'];
-        $boldtext = self::get_bold_text($text, $summary);
-        $renderable = new namespace\renderable($input, $output, $errors, $data, $boldtext, $summary);
+        list($boldtext, $summary) = self::get_bold_text($text, $summary);
+        $renderable = new output\renderable($input, $output, $errors, $data, $boldtext, $summary);
         return $renderable;
     }
 }

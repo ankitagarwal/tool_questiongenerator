@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace tool_questiongenerator;
+namespace tool_questiongenerator\output;
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -29,6 +29,7 @@ class renderer extends \plugin_renderer_base {
             // If debug is requested, print everything we have got.
             $this->display_debug_data($renderable);
         }
+        $this->display_summary($renderable);
     }
 
     protected function display_debug_data(renderable $renderable) {
@@ -39,5 +40,15 @@ class renderer extends \plugin_renderer_base {
         echo "</pre><b>Errors</b><pre>";
         print $renderable->errors;
         echo "</pre>";
+    }
+
+    protected function display_summary(renderable $renderable) {
+        echo "<b>Original text with important sentences bold</b><br /><br /><p>";
+        echo $renderable->boldtext;
+        echo "</p>";
+
+        echo "<b>Summary</b><br /><br /><p>";
+        echo implode(". ", $renderable->summary);
+        echo "</p>";
     }
 }

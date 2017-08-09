@@ -36,30 +36,8 @@ if ($formdata = $mform->get_data()) {
     $renderable = \tool_questiongenerator\api::get_renderable($formdata);
     $renderer = $PAGE->get_renderer('tool_questiongeneratior');
     $renderer->render($renderable);
-
-
-
-    $data = json_decode($output, true);
-    $summary = $data['summary'];
-
-    $replace = [];
-    $finalsummary = [];
-    foreach ($summary as $sent) {
-        $finalsummary[] = trim($sent);
-        $replace[] = "<b>" . $sent . "</b>";
-    }
-    $boldtext = str_replace($finalsummary, $replace, $formdata['originaltext']);
-    echo "<b>Original text with important sentences bold</b><br /><br /><p>";
-    echo $boldtext;
-    echo "</p>";
-
-    echo "<b>Summary</b><br /><br /><p>";
-    echo implode(". ", $finalsummary);
-    echo "</p>";
-
-    $table = new \tool_questiongenerator\questions_table("qna");
-    $table->format_and_add_array_of_rows($data['qna']);
-
+    $table = new \tool_questiongenerator\questions_table("tool_quesntiongenerator_qna");
+    $table->format_and_add_array_of_rows($renderer->data['qna']);
 } else {
     $mform->display();
 }
